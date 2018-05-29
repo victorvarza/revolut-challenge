@@ -5,7 +5,7 @@ metadata:
   labels:
     app: revolut
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: revolut
@@ -45,7 +45,7 @@ spec:
   ports:
    - name: http
      port: 80
-     targetPort: 80
+     targetPort: 8080
      protocol: TCP
 ---
 apiVersion: extensions/v1beta1

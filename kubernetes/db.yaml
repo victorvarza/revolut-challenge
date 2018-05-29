@@ -26,12 +26,12 @@ kind: Service
 metadata:
   name: redis
   labels:
-    name: revolut
-    app: revolut
+    name: revolutdb
+    app: revolutdb
 spec:
   ports:
   - port: 6379
     name: redis
     targetPort: 6379
   selector:
-    app: revolut
+    app: revolutdb
