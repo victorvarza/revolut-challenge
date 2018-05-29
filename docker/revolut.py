@@ -40,7 +40,7 @@ def check_date_format(dateOfBirth):
         datetime.strptime(dateOfBirth, '%Y-%m-%d')
         return True
     except ValueError:
-        return True
+        return False
 
 # get the number of days until the next anniversary
 def get_date_diff(dateOfBirth):
