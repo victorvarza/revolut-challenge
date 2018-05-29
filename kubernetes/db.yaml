@@ -1,0 +1,37 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: db
+  labels:
+    app: revolutdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: revolutdb
+  template:
+    metadata:
+      labels:
+        app: revolutdb
+    spec:
+      containers:
+      - name: redis
+        image: redis:latest
+        ports:
+        - containerPort: 6379
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  labels:
+    name: revolut
+    app: revolut
+spec:
+  ports:
+  - port: 6379
+    name: redis
+    targetPort: 6379
+  selector:
+    app: revolut

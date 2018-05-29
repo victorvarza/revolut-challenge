@@ -1,0 +1,63 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: revolut
+  labels:
+    app: revolut
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: revolut
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 2
+  template:
+    metadata:
+      labels:
+        app: revolut
+    spec:
+      containers:
+      - name: revolut
+        image: trainersontheweb/revolut:1.0
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+          name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: revolut
+  labels:
+    name: revolut
+    app: revolut
+spec:
+  selector:
+    app: revolut
+  type: ClusterIP
+  ports:
+   - name: http
+     port: 80
+     targetPort: 80
+     protocol: TCP
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: revolut
+spec:
+  rules:
+  - host: revolut.local
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: revolut
+          servicePort: 80
